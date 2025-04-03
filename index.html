@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaction Processing Concepts</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background-color: #f4f4f4; }
+        header { background: #333; color: white; padding: 15px; text-align: center; font-size: 24px; }
+        nav { text-align: center; margin: 20px 0; }
+        nav a { margin: 0 15px; text-decoration: none; color: #007BFF; font-weight: bold; }
+        div { max-width: 800px; margin: auto; padding: 20px; background: white; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
+        h2 { color: #333; border-bottom: 2px solid #007BFF; padding-bottom: 5px; }
+        ul { padding-left: 20px; }
+        footer { background: #333; color: white; text-align: center; padding: 10px; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Introduction to Transaction Processing</h1>
+    </header>
+    <nav>
+        <a href="#definition">Transaction Definition</a>
+        <a href="#properties">Transaction Properties</a>
+        <a href="#recoverability">Schedules based on Recoverability</a>
+        <a href="#serializability">Schedules based on Serializability</a>
+    </nav>
+    <div>
+        <section id="definition">
+            <h2>Definition of Transaction</h2>
+            <p>A <strong>transaction</strong> is a sequence of operations performed as a single logical unit of work in a database. A transaction ensures that the database remains in a consistent state despite system failures, concurrent operations, or errors.</p>
+            <p><strong>Example:</strong> Consider a bank transfer where money is transferred from Account A to Account B:</p>
+            <ul>
+                <li>Debit $500 from Account A</li>
+                <li>Credit $500 to Account B</li>
+                <li>If any step fails, the transaction is rolled back to maintain consistency.</li>
+            </ul>
+        </section>
+
+        <section id="properties">
+            <h2>Transaction Properties</h2>
+            <center>
+                <img src="ACID1.jpg" height="250" width="300" alt="ACID properties">
+            </center>
+            <p>Transactions in a database system must maintain the ACID properties:</p>
+            <ul>
+                <li><strong>Atomicity:</strong> Ensures that a transaction is either fully completed or fully rolled back.
+                    <br><i><strong>Example:</strong><i> A shopping cart checkout where payment processing fails; the order should not be placed.</li><br>
+                <li><strong>Consistency:</strong> Ensures that a database remains in a consistent state before and after a transaction.
+                    <br><strong>Example:</strong> A student enrollment system should not allow enrolling in a course that exceeds seat availability.</li><br>
+                <li><strong>Isolation:</strong> Ensures that transactions execute independently without interference.
+                    <br><strong>Example:</strong> Two ATMs withdrawing from the same account should not cause incorrect balance updates.</li><br>
+                <li><strong>Durability:</strong> Ensures that the effects of a committed transaction are permanently stored.
+                    <br><strong>Example:</strong> A flight booking should remain confirmed even after a power outage.</li><br>
+            </ul>
+        </section>
+
+        <section id="recoverability">
+            <h2>Schedules based on Recoverability</h2>
+            <center>
+                <img src="RCS.webp" height="200" width="350" alt="Recoverability schedules">
+            </center>
+            <p>Schedules can be categorized based on whether they allow recovery after failures:</p>
+            <ul>
+                <li><strong>Recoverable Schedule:</strong> A schedule where transactions commit only after ensuring that all dependent transactions commit.
+                    <br><strong>Example:</strong> An online order should not be confirmed unless payment is successfully processed.</li><br>
+                <li><strong>Cascadeless Schedule:</strong> A recoverable schedule that avoids cascading rollbacks by ensuring transactions read only committed data.
+                    <br><strong>Example:</strong> A warehouse inventory system should only process new shipments after confirming the previous stock update.</li><br>
+                <li><strong>Strict Schedule:</strong> A cascadeless schedule that ensures that once a transaction writes a data item, no other transaction can access it until the first one is committed or rolled back.
+                    <br><strong>Example:</strong> A library management system should not allow borrowing a book that is being returned until the return is fully processed.</li><br>
+            </ul>
+        </section>
+
+        <section id="serializability">
+            <h2>Schedules based on Serializability</h2>
+            <center>
+                <img src="SCV.png" height="200" width="350" alt="Serializability schedules">
+            </center>
+            <p>Schedules are categorized based on their equivalence to serial execution:</p>
+            <ul>
+                <li><strong>Serializable Schedule:</strong> A schedule that results in the same outcome as a serial execution of transactions.
+                    <br><strong>Example:</strong> Processing bank deposits and withdrawals in parallel but yielding the same result as executing them one after another.</li><br>
+                <li><strong>Conflict Serializability:</strong> A schedule that can be transformed into a serial schedule by swapping non-conflicting operations.
+                    <br><strong>Example:</strong> If one transaction updates an email address and another updates a phone number, their order can be swapped without conflicts.</li><br>
+                <li><strong>View Serializability:</strong> A schedule that produces the same final result as a serial schedule, even if the order of operations differs.
+                    <br><strong>Example:</strong> Two transactions updating different bank accounts may execute in a different order but still lead to the same final balances.</li><br>
+            </ul>
+        </section>
+
+        <section id="conclusion">
+            <h2>Conclusion</h2>
+            <p>Transaction processing plays a crucial role in maintaining the integrity and consistency of a database system. By following the ACID properties and ensuring proper scheduling, databases can handle concurrent transactions efficiently and reliably. Understanding different types of schedules, such as those based on recoverability and serializability, helps in designing robust database systems that prevent data anomalies and ensure smooth operation.</p>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Transaction Processing Concepts. All Rights Reserved.</p>
+    </footer>
+</body>
+</html>
